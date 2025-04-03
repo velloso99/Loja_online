@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loja Online</title>
+</head>
+<body>
+    <h1>Produtos Disponíveis</h1>
+    <ul>
+        {% for produto in produtos %}
+            <li>
+                <h2>{{ produto.nome }}</h2>
+                <p>{{ produto.descricao }}</p>
+                <p>Preço: R$ {{ produto.preco }}</p>
+                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" width="200">
+                {% if produto.link_externo %}
+                    <p><a href="{{ produto.link_externo }}" target="_blank">Ver mais detalhes</a></p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
