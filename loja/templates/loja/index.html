@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loja Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .produto {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 10px;
+            width: 60%;
+            text-align: left;
+            background-color: white;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        .produto img {
+            max-width: 100%;
+            display: block;
+            margin: 10px auto;
+            border-radius: 5px;
+        }
+        .botao-admin, .botao-interagir {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .botao-admin {
+            background-color: #007BFF;
+            color: white;
+        }
+        .botao-admin:hover {
+            background-color: #0056b3;
+        }
+        .botao-interagir {
+            background-color: #28a745;
+            color: white;
+        }
+        .botao-interagir:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        function acessarAdmin() {
+            window.location.href = '/admin/login/?next=/admin/';
+        }
+
+        function interagirProduto(nome) {
+            let elemento = document.getElementById(nome);
+            elemento.style.backgroundColor = '#d4edda';
+            alert('Você interagiu com o produto: ' + nome);
+        }
+    </script>
+</head>
+<body>
+    <h1>Produtos Disponíveis</h1>
+    <button class="botao-admin" onclick="acessarAdmin()">Acessar Administração</button>
+    {% if produtos.exists %}
+        <ul style="list-style-type: none; padding: 0;">
+            {% for produto in produtos %}
+                <li class="produto" id="{{ produto.nome }}">
+                    <h2>{{ produto.nome }}</h2>
+                    <p>{{ produto.descricao }}</p>
+                    <p><strong>Preço:</strong> R$ {{ produto.preco }}</p>
+                    {% if produto.imagem %}
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                    {% endif %}
+                    {% if produto.link_externo %}
+                        <p><a href="{{ produto.link_externo }}" target="_blank">Ver mais detalhes</a></p>
+                    {% endif %}
+                    <button class="botao-interagir" onclick="interagirProduto('{{ produto.nome }}')">Interagir</button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum produto cadastrado.</p>
+    {% endif %}
+</body>
+</html>
